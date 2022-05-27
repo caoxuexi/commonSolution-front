@@ -37,6 +37,11 @@
           duration-500
           group-hover:bg-white group-hover:border-zinc-200
           focus:border-red-300
+          dark:bg-zinc-800
+          dark:text-zinc-200
+          dark:border-zinc-700
+          dark:group-hover:bg-zinc-900
+          dark:group-hover:border-zinc-700
         "
         type="text"
         placeholder="搜索"

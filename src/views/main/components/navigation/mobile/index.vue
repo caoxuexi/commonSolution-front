@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white sticky top-0 left-0 z-10">
+  <div class="bg-white sticky top-0 left-0 z-10 dark:bg-zinc-900">
     <!-- 添加ref -->
     <ul
       class="
@@ -14,7 +14,7 @@
     >
       <!-- category item -->
       <li
-        v-for="(item, index) in data"
+        v-for="(item, index) in $store.getters.categorys"
         :key="item.id"
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :ref="setItemRef"
@@ -29,7 +29,14 @@
       <!-- 滑块 -->
       <li
         ref="sliderTarget"
-        class="absolute h-[22px] bg-zinc-900 rounded-lg duration-200"
+        class="
+          absolute
+          h-[22px]
+          bg-zinc-900
+          dark:bg-zinc-800
+          rounded-lg
+          duration-200
+        "
         :style="sliderStyle"
       ></li>
 
@@ -46,6 +53,7 @@
           items-center
           bg-white
           shadow-l-white
+          dark:bg-zinc-900 dark:shadow-l-zinc
         "
         @click="onShowPopup"
       >
@@ -58,17 +66,11 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, watch, onBeforeUpdate } from 'vue'
 import { useScroll } from '@vueuse/core'
 import MenuVue from '@/views/main/components/menu/index.vue'
-
-defineProps({
-  data: {
-    type: Array,
-    required: true
-  }
-})
 
 // 滑块
 const sliderStyle = ref({
@@ -104,6 +106,8 @@ watch(currentCategoryIndex, (val) => {
     transform: `translateX(${ulScrollLeft.value + left - 10 + 'px'})`,
     width: width + 'px'
   }
+  ulTarget.value.style.value = {}
+  console.log(ulTarget.value.style)
 })
 
 // item 点击事件
@@ -118,3 +122,12 @@ const onShowPopup = () => {
   isOpenPopup.value = true
 }
 </script>
+
+<style scoped>
+::-webkit-scrollbar {
+  /*可以消去滚动条*/
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+</style>

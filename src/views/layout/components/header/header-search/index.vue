@@ -2,7 +2,7 @@
   <div class="w-full">
     <m-search v-model="inputValue">
       <template #dropdown>
-        <div>dropdown</div>
+        <div class="dark:text-white">dropdown</div>
       </template>
     </m-search>
   </div>
