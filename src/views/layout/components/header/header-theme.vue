@@ -3,7 +3,7 @@
     <!-- 具名插槽插入 -->
     <template #reference>
       <m-svg-icon
-        name="theme-light"
+        :name="svgIconName"
         class="
           guide-theme
           w-4
@@ -33,6 +33,7 @@
         "
         v-for="item in themeArr"
         :key="item.id"
+        @click="onItemClick(item)"
       >
         <m-svg-icon
           :name="item.icon"
@@ -49,6 +50,8 @@
 
 <script setup>
 import { THEME_DARK, THEME_LIGHT, THEME_SYSTEM } from '@/constants'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 // 构建渲染数据源
 const themeArr = [
@@ -71,4 +74,18 @@ const themeArr = [
     name: '跟随系统'
   }
 ]
+
+const onItemClick = (theme) => {
+  store.commit('theme/changeThemeType', theme.type)
+}
+
+// 控制图标展示
+const store = useStore()
+const svgIconName = computed(() => {
+  // 根据当前的 themeType 返回当前的选中 icon
+  const findTheme = themeArr.find((theme) => {
+    return theme.type === store.getters.themeType
+  })
+  return findTheme.icon
+})
 </script>

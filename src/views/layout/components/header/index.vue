@@ -11,6 +11,7 @@
   >
     <div class="flex items-center">
       <img
+        v-lazy
         class="h-4 cursor-pointer mr-2"
         src="https://qn-next.xuetangx.com/15814431564429.png"
         @click="onToHome"

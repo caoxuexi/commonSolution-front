@@ -38,7 +38,7 @@
           fillClass="fill-zinc-900 dark:fill-zinc-300"
         ></m-svg-icon>
       </div>
-      <!-- category item -->
+      <!-- category item  这里 class要修改从vuex中读取-->
       <li
         v-for="(item, index) in $store.getters.categorys"
         :key="item.id"
@@ -62,9 +62,9 @@
         "
         :class="{
           'text-zinc-900 bg-zinc-200 dark:text-zinc-300 dark:bg-zinc-900':
-            currentCategoryIndex === index
+            $store.getters.currentCategoryIndex === index
         }"
-        @click="onItemClick(index)"
+        @click="onItemClick(item)"
       >
         {{ item.name }}
       </li>
@@ -74,6 +74,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 /**
  * 状态切换处理
@@ -87,7 +90,7 @@ const triggerState = () => {
  * 选中状态处理
  */
 const currentCategoryIndex = ref(0)
-const onItemClick = (index) => {
-  currentCategoryIndex.value = index
+const onItemClick = (item) => {
+  store.commit('app/changeCurrentCategory', item)
 }
 </script>
