@@ -6,7 +6,7 @@ export default {
   /**
    * 当前主题
    */
-  themeType: state => state.theme.themeTyp,
+  themeType: state => state.theme.themeType,
   /**
    * category选中项
    */
@@ -18,5 +18,13 @@ export default {
     return getters.categorys.findIndex(
       item => item.id === getters.currentCategory.id
     )
-  }
+  },
+  /**
+   * 搜索历史
+   */
+  historys: state => state.search.historys,
+  /**
+   * 搜索的文本
+   */
+  searchText: state => state.app.searchText
 }

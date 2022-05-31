@@ -43,7 +43,7 @@ const loadingTarget = ref(null)
 // 记录当前是否在底部（是否交叉）
 const targetIsIntersecting = ref(false)
 
-// 解构出isIntersecting为true的时候则可见
+// 解构出isIntersecting，为true的时候则可见，监测啥时候loadingTarget对应的标签可见
 useIntersectionObserver(
   loadingTarget,
   ([{ isIntersecting }], observerElement) => {

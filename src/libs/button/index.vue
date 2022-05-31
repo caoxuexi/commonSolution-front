@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import mSvgIcon from '../svg-icon/index.vue'
+
 // type 可选项：表示按钮风格
 const typeEnum = {
   primary:
