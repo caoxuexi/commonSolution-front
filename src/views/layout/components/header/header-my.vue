@@ -2,6 +2,7 @@
   <m-popover class="flex items-center" placement="bottom-left">
     <template #reference>
       <div
+        v-if="false"
         class="
           guide-my
           relative
@@ -34,9 +35,18 @@
           class="w-1.5 h-1.5 absolute right-[16px] bottom-0"
         ></m-svg-icon>
       </div>
+      <div v-else>
+        <m-button
+          class="guide-my"
+          icon="profile"
+          iconColor="#fff"
+          @click="onToLogin"
+        ></m-button>
+      </div>
     </template>
 
-    <div class="w-[140px] overflow-hidden">
+    <!-- 气泡 -->
+    <div v-if="false" class="w-[140px] overflow-hidden">
       <div
         class="
           flex
@@ -85,4 +95,9 @@ const menuArr = [
     path: ''
   }
 ]
+
+// 进入登录
+const onToLogin = () => {
+  router.push('/login')
+}
 </script>

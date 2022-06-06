@@ -4,6 +4,7 @@
       v-model="inputValue"
       @search="onSearchHandler"
       @clear="onSearchHandler"
+      class="guide-search"
     >
       <template #dropdown>
         <div>
