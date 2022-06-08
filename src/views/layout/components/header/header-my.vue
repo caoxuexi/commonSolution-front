@@ -2,7 +2,7 @@
   <m-popover class="flex items-center" placement="bottom-left">
     <template #reference>
       <div
-        v-if="false"
+        v-if="$store.getters.token"
         class="
           guide-my
           relative
@@ -21,7 +21,7 @@
         <img
           v-lazy
           class="w-3 h-3 rounded-sm"
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2F0c%2Fef%2Fa0%2F0cefa0f17b83255217eddc20b15395f9.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1651074011&t=ba5d64079381425813e4c269bcac1a1b"
+          :src="$store.getters.userInfo.avatar"
         />
         <!-- 下箭头 -->
         <m-svg-icon
@@ -33,6 +33,7 @@
         <m-svg-icon
           name="vip"
           class="w-1.5 h-1.5 absolute right-[16px] bottom-0"
+          v-if="$store.getters.userInfo.vipLevel"
         ></m-svg-icon>
       </div>
       <div v-else>
@@ -46,7 +47,7 @@
     </template>
 
     <!-- 气泡 -->
-    <div v-if="false" class="w-[140px] overflow-hidden">
+    <div v-if="$store.getters.token" class="w-[140px] overflow-hidden">
       <div
         class="
           flex
@@ -59,6 +60,7 @@
         "
         v-for="item in menuArr"
         :key="item.id"
+        @click="onItemClick(item.path)"
       >
         <m-svg-icon
           :name="item.icon"
@@ -74,6 +76,12 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { confirm } from '@/libs'
+const router = useRouter()
+const store = useStore()
+
 // 构建 menu 数据源
 const menuArr = [
   {
@@ -99,5 +107,23 @@ const menuArr = [
 // 进入登录
 const onToLogin = () => {
   router.push('/login')
+}
+
+/**
+ * menu Item 点击事件，也可以根据其他的 key 作为判定，比如 name
+ */
+const onItemClick = (path) => {
+  // 有路径则进行路径跳转
+  if (path) {
+    // 配置跳转方式
+    store.commit('app/changeRouterType', 'push')
+    router.push(path)
+    return
+  }
+  // 无路径则为退出登录
+  confirm('您确定要退出登录吗？').then(() => {
+    // 退出登录不存在跳转路径
+    store.dispatch('user/logout')
+  })
 }
 </script>
