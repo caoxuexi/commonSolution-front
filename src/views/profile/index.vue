@@ -106,8 +106,7 @@ s<template>
             >用户名</span
           >
           <m-input
-            :modelValue="$store.getters.userInfo.nickname"
-            @update:modelValue="changeStoreUserInfo('nickname', $event)"
+            v-model="userInfo.username"
             class="w-full"
             type="text"
             max="20"
@@ -119,8 +118,7 @@ s<template>
             >职位</span
           >
           <m-input
-            :modelValue="$store.getters.userInfo.title"
-            @update:modelValue="changeStoreUserInfo('title', $event)"
+            v-model="userInfo.title"
             class="w-full"
             type="text"
           ></m-input>
@@ -131,8 +129,7 @@ s<template>
             >公司</span
           >
           <m-input
-            :modelValue="$store.getters.userInfo.company"
-            @update:modelValue="changeStoreUserInfo('company', $event)"
+            v-model="userInfo.company"
             class="w-full"
             type="text"
           ></m-input>
@@ -143,8 +140,7 @@ s<template>
             >个人主页</span
           >
           <m-input
-            :modelValue="$store.getters.userInfo.homePage"
-            @update:modelValue="changeStoreUserInfo('homePage', $event)"
+            v-model="userInfo.homePage"
             class="w-full"
             type="text"
           ></m-input>
@@ -155,8 +151,7 @@ s<template>
             >个人介绍</span
           >
           <m-input
-            :modelValue="$store.getters.userInfo.introduction"
-            @update:modelValue="changeStoreUserInfo('introduction', $event)"
+            v-model="userInfo.introduction"
             class="w-full"
             type="textarea"
             max="50"
@@ -189,6 +184,24 @@ s<template>
       </div>
     </div>
   </div>
+  <!-- PC 端 -->
+  <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
+    <change-avatar-vue
+      :blob="currentBolb"
+      @close="isDialogVisible = false"
+    ></change-avatar-vue>
+  </m-dialog>
+  <!-- 移动端：在展示时指定高度 -->
+  <m-popup
+    v-else
+    :class="{ 'h-screen': isDialogVisible }"
+    v-model="isDialogVisible"
+  >
+    <change-avatar-vue
+      :blob="currentBolb"
+      @close="isDialogVisible = false"
+    ></change-avatar-vue>
+  </m-popup>
 </template>
 
 <script>
@@ -198,25 +211,23 @@ export default {
 </script>
 
 <script setup>
+import changeAvatarVue from './components/change-avatar.vue'
 import { isMobileTerminal } from '@/utils/flexible'
 import { confirm } from '@/libs'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { putProfile } from '@/api/sys'
 import { message } from '@/libs'
 
 const store = useStore()
 const router = useRouter()
 
-// 隐藏域
-const inputFileTarget = ref(null)
-// 选中的图片
-const currentBolb = ref('')
-
 /**
  * 更换头像点击事件
  */
+// 隐藏域
+const inputFileTarget = ref(null)
 const onAvatarClick = () => {
   //触发隐藏域的点击事件选择图片
   inputFileTarget.value.click()
@@ -225,6 +236,9 @@ const onAvatarClick = () => {
 /**
  * 头像选择之后的回调
  */
+// 选中的图片
+const currentBolb = ref('')
+const isDialogVisible = ref(false)
 const onSelectImgHandler = () => {
   // 获取选中的文件
   const imgFile = inputFileTarget.value.files[0]
@@ -253,14 +267,19 @@ const onLogoutClick = () => {
 }
 
 /**
+ * 监听 dialog 关闭，因为两次选择图片如果是同一张的话，第二次选择不会触发change的回调
+ */
+watch(isDialogVisible, (val) => {
+  if (!val) {
+    // 防止 change 不重复触发
+    inputFileTarget.value.value = null
+  }
+})
+
+/**
  * 数据本地的双向同步
  */
-const changeStoreUserInfo = (key, value) => {
-  store.commit('user/setUserInfo', {
-    ...store.getters.userInfo,
-    [key]: value
-  })
-}
+const userInfo = ref(store.getters.userInfo)
 
 /**
  * 修改个人信息
@@ -268,8 +287,10 @@ const changeStoreUserInfo = (key, value) => {
 const loading = ref(false)
 const onChangeProfile = async () => {
   loading.value = true
-  await putProfile(store.getters.userInfo)
+  await putProfile(userInfo.value)
   message('success', '用户信息修改成功')
+  // 更新 vuex
+  store.commit('user/setUserInfo', userInfo.value)
   loading.value = false
 }
 </script>
