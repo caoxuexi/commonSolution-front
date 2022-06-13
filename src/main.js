@@ -13,11 +13,12 @@ import './permission'
 // 初始化主题
 useTheme()
 
+// 设置 rem
+useREM()
+
 createApp(App)
   .use(router)
   .use(mLibs)
   .use(store)
   .use(mDirectives)
   .mount('#app')
-
-useREM()

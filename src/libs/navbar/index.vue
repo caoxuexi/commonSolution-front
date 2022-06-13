@@ -54,6 +54,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   clickLeft: { type: Function },
@@ -63,6 +64,7 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const store = useStore()
 /**
  * 左侧按钮点击事件
  */
@@ -71,6 +73,8 @@ const onClickLeft = () => {
     props.clickLeft()
     return
   }
+  // 配置跳转方式
+  store.commit('app/changeRouterType', 'back')
   router.back()
 }
 

@@ -208,6 +208,8 @@ const onLogin = async () => {
  * 去注册
  */
 const onToReg = () => {
+  //移动端下跳转的类型
+  store.commit('app/changeRouterType', 'back')
   router.push('/register')
 }
 </script>
