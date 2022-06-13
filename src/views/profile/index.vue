@@ -1,4 +1,4 @@
-s<template>
+<template>
   <div
     class="
       h-full
@@ -183,25 +183,25 @@ s<template>
         </m-button>
       </div>
     </div>
+    <!-- PC 端 -->
+    <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
+      <change-avatar-vue
+        :blob="currentBolb"
+        @close="isDialogVisible = false"
+      ></change-avatar-vue>
+    </m-dialog>
+    <!-- 移动端：在展示时指定高度 -->
+    <m-popup
+      v-else
+      :class="{ 'h-screen': isDialogVisible }"
+      v-model="isDialogVisible"
+    >
+      <change-avatar-vue
+        :blob="currentBolb"
+        @close="isDialogVisible = false"
+      ></change-avatar-vue>
+    </m-popup>
   </div>
-  <!-- PC 端 -->
-  <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
-    <change-avatar-vue
-      :blob="currentBolb"
-      @close="isDialogVisible = false"
-    ></change-avatar-vue>
-  </m-dialog>
-  <!-- 移动端：在展示时指定高度 -->
-  <m-popup
-    v-else
-    :class="{ 'h-screen': isDialogVisible }"
-    v-model="isDialogVisible"
-  >
-    <change-avatar-vue
-      :blob="currentBolb"
-      @close="isDialogVisible = false"
-    ></change-avatar-vue>
-  </m-popup>
 </template>
 
 <script>

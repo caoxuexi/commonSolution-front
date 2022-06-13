@@ -56,6 +56,7 @@
         </div>
         <p class="mt-1 text-sm text-zinc-500">{{ currentPayData.desc }}</p>
         <!-- 支付 -->
+        <payment-vue class="mt-4" />
       </div>
     </div>
   </div>
@@ -70,6 +71,7 @@ export default {
 <script setup>
 import { isMobileTerminal } from '@/utils/flexible'
 import payMenuItemVue from './components/pay-menu-item.vue'
+import paymentVue from './components/payment/index.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
