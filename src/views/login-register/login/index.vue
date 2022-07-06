@@ -123,9 +123,9 @@
 
       <div class="flex justify-around mt-4">
         <!-- QQ -->
-        <m-svg-icon class="w-4 cursor-pointer" name="qq"></m-svg-icon>
+        <qq-login-vue></qq-login-vue>
         <!-- 微信 -->
-        <m-svg-icon class="w-4 cursor-pointer" name="wexin"></m-svg-icon>
+        <weixin-login-vue></weixin-login-vue>
       </div>
     </div>
 
@@ -148,6 +148,8 @@ export default {
 import { validateUsername, validatePassword } from '../validate'
 import headerVue from '../components/header.vue'
 import sliderCaptchaVue from './slider-captcha.vue'
+import qqLoginVue from './qq-login.vue'
+import weixinLoginVue from './weixin-login.vue'
 import { ref } from 'vue'
 import { LOGIN_TYPE_USERNAME } from '@/constants'
 import { useStore } from 'vuex'
@@ -158,6 +160,7 @@ import {
   Field as VeeField,
   ErrorMessage as VeeErrorMessage
 } from 'vee-validate'
+import WeixinLogin from './weixin-login.vue'
 
 const store = useStore()
 const router = useRouter()

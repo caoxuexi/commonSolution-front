@@ -50,6 +50,7 @@
             group
             hover:shadow-lg
           "
+          @click="onToFeedback"
         >
           <m-svg-icon
             name="feedback"
@@ -88,6 +89,7 @@ import Driver from 'driver.js'
 import 'driver.js/dist/driver.min.css'
 import { onMounted } from 'vue'
 import steps from './steps'
+import { FEEDBACK_URL } from '@/constants'
 
 /**
  * 引导页处理
@@ -109,6 +111,13 @@ onMounted(() => {
 const onGuideClick = () => {
   driver.defineSteps(steps)
   driver.start()
+}
+
+/**
+ * 反馈处理
+ */
+const onToFeedback = () => {
+  window.open(FEEDBACK_URL, '_blank')
 }
 </script>
 

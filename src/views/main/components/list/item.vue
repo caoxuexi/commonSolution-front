@@ -36,7 +36,9 @@
         "
       >
         <!-- 分享 -->
-        <m-button class="absolute top-1.5 left-1.5">分享</m-button>
+        <m-button class="absolute top-1.5 left-1.5" @click="onShareClick"
+          >分享</m-button
+        >
         <!-- 收藏 -->
         <m-button
           class="absolute top-1.5 right-1.5"
@@ -89,6 +91,7 @@
 
 <script setup>
 import { randomRGB } from '@/utils/color'
+import { weiboShare } from '@/utils/share'
 import { saveAs } from 'file-saver'
 import { message } from '@/libs'
 import { useFullscreen, useElementBounding } from '@vueuse/core'
@@ -152,4 +155,14 @@ const imgContainerCenter = computed(() => {
     translateY: parseInt(imgContainerY.value + imgContainerHeight.value / 2)
   }
 })
+
+/**
+ * 分享按钮点击处理
+ */
+const onShareClick = () => {
+  weiboShare(
+    props.data.photo,
+    `https://imooc-front.lgdsunday.club/pins/${props.data.id}`
+  )
+}
 </script>

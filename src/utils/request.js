@@ -4,7 +4,7 @@ import { message as $message } from '@/libs'
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
-  headers: { icode: 'D73B1135C939A7F4' },
+  headers: { icode: '8AFF55CC092BC93E' },
   timeout: 5000
 })
 
